@@ -2,6 +2,9 @@ FROM node:latest
 
 WORKDIR /app
 COPY . .
+
+ENV PORT=3000
 RUN npm install
-EXPOSE 3000
+
+EXPOSE $PORT
 ENTRYPOINT ["node", "index.js"]
