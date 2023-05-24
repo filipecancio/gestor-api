@@ -1,17 +1,20 @@
 import _database from '../util/database.json'
-import { Transaction } from '../domain/types/Transaction'
+import { TransactionType } from '../domain/types/Transaction'
 
-const groupBy = function (prop: string) {
-  //return this.reduce((acc: any, item: any) => {
-  //  if (!acc[item[prop]]) acc[item[prop]] = []
-  //  acc[item[prop]].push(item)
-  //  return acc
-  //}, {});
+function groupBy<T>(arr: T[], fn: (item: T) => any){
+  return arr.reduce<Record<string, T[]>>((prev, curr) => {
+      const groupKey = fn(curr);
+      const group = prev[groupKey] || [];
+      group.push(curr);
+      return { ...prev, [groupKey]: group };
+  }, {});
 }
 
-const database = _database as Array<Transaction>
+const database = _database as Array<TransactionType>
 
-const getTransactions = () => database
-  .sort((item: any) => item.timestamp)
+const getTransactions = () => {
+  database.sort((item_a: TransactionType, item_b: TransactionType) => {return new Date(item_a.timestamp).valueOf() - new Date(item_b.timestamp).valueOf()}).reverse()
+  return groupBy(database, database => {return new Date(database.timestamp).toLocaleDateString('pt-BR')})
+}
 
 export { getTransactions }
