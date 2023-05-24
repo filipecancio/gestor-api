@@ -1,9 +1,10 @@
-const express = require('express');
-const transactions = require('./routes/transactionRoute');
+import express from 'express'
+import transactions from './routes/transactionRoute'
 
 const app = express();
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3000
+const HOSTNAME = process.env.HOSTNAME || 'http://localhost'
 
 const data = {
   "transactions": "http://localhost:3000/transactions"
