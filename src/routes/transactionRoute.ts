@@ -7,12 +7,12 @@ import { TransactionQuery } from '../domain/types/TransactionRequest';
 
 const router = express.Router();
 
-router.get('/filter/:id', (req, res) => {
+router.get('/:id', (req, res) => {
   const id: number = +req.params.id;
   res.status(200).send(getTransaction(id));
 });
 
-router.get('/filter', (req: Request<{}, any, any, TransactionQuery, Record<string, any>> , res) => {
+router.get('/', (req: Request<{}, any, any, TransactionQuery, Record<string, any>> , res) => {
   res.status(200).send(
     getTransactions(
       req.query.type, 
