@@ -1,21 +1,32 @@
 # Gestor API
 
-### Como rodar o projeto
+## Pre requisitos
+- Ter o nodeJS
+- Ter o yarn ou npm
 
-execute o comando na pasta raiz:
+## Como executar o projeto no terminal
 
-```bash
-docker build -t gestor:latest .
+ 1- Faça o clone do projeto
+ 2- Instale as dependências
+ 3- Rode o proteto
+
+ ## Como rodar o projeto no docker
+
+ 1- Construa o container
+ ```bash
+ docker-compose build
+ ```
+ 2- Rode a imagem
+ ```bash
+docker-compose up -d
 ```
 
-verifique as imagens disponiveis:
-
+### Comandos Extras
 ```bash
- docker images
+docker-compose stop
+docker-compose start
 ```
+## Lista de Endpoints de exemplo
 
-execute a api
-
-```bash
- docker run -p 8000:3000 gestor
-```
+http://localhost:8000/transactions/30
+http://localhost:8000/transactions/?type=0&month=3&year=2023
