@@ -29,8 +29,19 @@ const getTransaction = (id: number) => {
   return database.find((item: Transaction) => item.id == id)
 }
 
+const getTransactionsByTypeAndMonth = (type: TransactionType, month: number) => {
+  const dbFiltered = database
+    .filter((item: Transaction) => item.type == type)
+    .filter((item: Transaction) => new Date(item.timestamp).getMonth() == month)
+    .sort((item_a: Transaction, item_b: Transaction) => { return new Date(item_a.timestamp).valueOf() - new Date(item_b.timestamp).valueOf() })
+    .reverse()
+    
+  return groupBy(dbFiltered, database => new Date(database.timestamp).toLocaleDateString('pt-BR'))
+}
+
 export { 
   getTransactions, 
   getTransactionsByType,
-  getTransaction
+  getTransaction,
+  getTransactionsByTypeAndMonth
 }
