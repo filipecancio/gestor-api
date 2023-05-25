@@ -12,15 +12,27 @@ function groupBy<T>(arr: T[], fn: (item: T) => any) {
 
 const database = _database as Array<Transaction>
 
-const getTransactions = () => {
-  database.sort((item_a: Transaction, item_b: Transaction) => { return new Date(item_a.timestamp).valueOf() - new Date(item_b.timestamp).valueOf() }).reverse()
-  return groupBy(database, database => new Date(database.timestamp).toLocaleDateString('pt-BR'))
-}
+const getTransactions = (
+  type?: TransactionType,
+  month?: number,
+  year?: number,
+  description?: string,
+) => {
+  let dbFiltered = database
+  if (type) {
+    dbFiltered = dbFiltered.filter((item: Transaction) => item.type == type)
+  }
+  if (month) {
+    dbFiltered = dbFiltered.filter((item: Transaction) => new Date(item.timestamp).getMonth() == month)
+  }
+  if (year) {
+    dbFiltered = dbFiltered.filter((item: Transaction) => new Date(item.timestamp).getFullYear() == year)
+  }
+  if (description) {
+    dbFiltered = dbFiltered.filter((item: Transaction) => item.description?.toLowerCase().includes(description.toLowerCase()))
+  }
 
-const getTransactionsByType = (type: TransactionType) => {
-  const dbFiltered = database
-    .filter((item: Transaction) => item.type == type)
-    .sort((item_a: Transaction, item_b: Transaction) => { return new Date(item_a.timestamp).valueOf() - new Date(item_b.timestamp).valueOf() })
+  dbFiltered = dbFiltered.sort((item_a: Transaction, item_b: Transaction) => { return new Date(item_a.timestamp).valueOf() - new Date(item_b.timestamp).valueOf() })
     .reverse()
   return groupBy(dbFiltered, database => new Date(database.timestamp).toLocaleDateString('pt-BR'))
 }
@@ -29,19 +41,7 @@ const getTransaction = (id: number) => {
   return database.find((item: Transaction) => item.id == id)
 }
 
-const getTransactionsByTypeAndMonth = (type: TransactionType, month: number) => {
-  const dbFiltered = database
-    .filter((item: Transaction) => item.type == type)
-    .filter((item: Transaction) => new Date(item.timestamp).getMonth() == month)
-    .sort((item_a: Transaction, item_b: Transaction) => { return new Date(item_a.timestamp).valueOf() - new Date(item_b.timestamp).valueOf() })
-    .reverse()
-    
-  return groupBy(dbFiltered, database => new Date(database.timestamp).toLocaleDateString('pt-BR'))
-}
-
-export { 
-  getTransactions, 
-  getTransactionsByType,
+export {
   getTransaction,
-  getTransactionsByTypeAndMonth
+  getTransactions
 }

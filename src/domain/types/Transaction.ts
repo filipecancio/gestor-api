@@ -1,6 +1,6 @@
 export interface Transaction {
     id?: number;
-    description?: string;
+    description?: string | null;
     bank: string;
     value: number;
     timestamp: string;
