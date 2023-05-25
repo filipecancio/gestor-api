@@ -17,4 +17,4 @@ app.get('/', (req, res) => {
 });
 
 app.listen(port);
-console.log(`Aplicação executando no endereco http://localhost:${port}`);
+console.log(`Aplicação executando no endereco http://localhost:8000`);
