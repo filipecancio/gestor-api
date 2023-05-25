@@ -1,13 +1,13 @@
-export interface TransactionType {
+export interface Transaction {
     id?: number;
     description?: string;
     bank: string;
     value: number;
     timestamp: string;//Date;
-    type: TransactionStatus;
+    type: TransactionType;
 }
 
-export enum TransactionStatus {
+export enum TransactionType {
     CREDIT = 0,
     DEBT = 1
 }

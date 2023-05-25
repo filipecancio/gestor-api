@@ -1,11 +1,20 @@
 import express from 'express'
-import {getTransactions} from '../controller/TransactionController'
+import {
+  getTransactions,
+  getTransactionsByType
+} from '../controller/TransactionController'
+import { TransactionType } from '../domain/types/Transaction'
 
 const router = express.Router();
 
 
 router.get('/', (req, res) => {
-    res.status(200).send(getTransactions());
-  });
+  res.status(200).send(getTransactions());
+});
 
-  export default router
+router.get('/:type', (req, res) => {
+  const type: string = req.params.type;
+  res.status(200).send(getTransactionsByType(type));
+});
+
+export default router
