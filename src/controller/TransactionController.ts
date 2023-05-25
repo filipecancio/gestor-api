@@ -17,14 +17,20 @@ const getTransactions = () => {
   return groupBy(database, database => new Date(database.timestamp).toLocaleDateString('pt-BR'))
 }
 
-const getTransactionsByType = (aaaaa: string) => {
-  const aaaa = database
-    .filter((item: Transaction) => item.type.valueOf().toString() == aaaaa)
-  aaaa
+const getTransactionsByType = (type: TransactionType) => {
+  const dbFiltered = database
+    .filter((item: Transaction) => item.type == type)
     .sort((item_a: Transaction, item_b: Transaction) => { return new Date(item_a.timestamp).valueOf() - new Date(item_b.timestamp).valueOf() })
     .reverse()
-  //return type.valueOf()
-  return groupBy(database, database => new Date(database.timestamp).toLocaleDateString('pt-BR'))
+  return groupBy(dbFiltered, database => new Date(database.timestamp).toLocaleDateString('pt-BR'))
 }
 
-export { getTransactions, getTransactionsByType }
+const getTransaction = (id: number) => {
+  return database.find((item: Transaction) => item.id == id)
+}
+
+export { 
+  getTransactions, 
+  getTransactionsByType,
+  getTransaction
+}

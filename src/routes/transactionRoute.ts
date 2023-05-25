@@ -1,7 +1,8 @@
 import express from 'express'
 import {
   getTransactions,
-  getTransactionsByType
+  getTransactionsByType,
+  getTransaction
 } from '../controller/TransactionController'
 import { TransactionType } from '../domain/types/Transaction'
 
@@ -12,9 +13,14 @@ router.get('/', (req, res) => {
   res.status(200).send(getTransactions());
 });
 
-router.get('/:type', (req, res) => {
-  const type: string = req.params.type;
+router.get('/type/:type', (req, res) => {
+  const type: TransactionType = +req.params.type;
   res.status(200).send(getTransactionsByType(type));
+});
+
+router.get('/transaction/:id', (req, res) => {
+  const id: number = +req.params.id;
+  res.status(200).send(getTransaction(id));
 });
 
 export default router

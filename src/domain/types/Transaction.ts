@@ -3,7 +3,7 @@ export interface Transaction {
     description?: string;
     bank: string;
     value: number;
-    timestamp: string;//Date;
+    timestamp: string;
     type: TransactionType;
 }
 
