@@ -1,6 +1,7 @@
 import _database from '../util/database.json'
 import { Transaction, TransactionType } from '../domain/types/Transaction'
 import { it } from 'node:test';
+import { get } from 'http';
 
 function groupBy<T>(arr: T[], fn: (item: T) => any) {
   return arr.reduce<Record<string, T[]>>((prev, curr) => {
@@ -88,6 +89,22 @@ const getTransactionsSum = (
   return {"sum": sum}
 }
 
+const getTotalTransactionsValues = (
+  month?: number,
+  year?: number) => {
+  let dbFiltered = database
+  dbFiltered = sortedByDescending(dbFiltered)
+
+  let creditdb = getTransactionsSum(TransactionType.CREDIT, month, year)
+  let debtdb = getTransactionsSum(TransactionType.DEBT, month, year)
+  
+  return {
+    "credit": creditdb.sum,
+    "debt": debtdb.sum,
+    "total": debtdb.sum - creditdb.sum,
+  }
+}
+
 const sortedByDescending = (transactionList: Array<Transaction>) => transactionList
   .sort((item_a: Transaction, item_b: Transaction) => new Date(item_a.timestamp).valueOf() - new Date(item_b.timestamp).valueOf() )
   .reverse()
@@ -98,5 +115,6 @@ export {
   getTransaction,
   getTransactions,
   getMonthlyTransactions,
-  getTransactionsSum
+  getTransactionsSum,
+  getTotalTransactionsValues
 }

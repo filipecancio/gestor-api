@@ -3,7 +3,8 @@ import {
   getTransaction,
   getTransactions,
   getMonthlyTransactions,
-  getTransactionsSum
+  getTransactionsSum,
+  getTotalTransactionsValues
 } from '../controller/TransactionController'
 import { TransactionQuery } from '../domain/types/TransactionRequest';
 
@@ -35,6 +36,15 @@ router.get('/sum', (req: Request<{}, any, any, TransactionQuery, Record<string, 
   res.status(200).send(
       getTransactionsSum(
           req.query.type, 
+          req.query.month,
+          req.query.year
+    )
+  );
+})
+
+router.get('/sum/total', (req: Request<{}, any, any, TransactionQuery, Record<string, any>> , res) => {
+  res.status(200).send(
+    getTotalTransactionsValues(
           req.query.month,
           req.query.year
     )
