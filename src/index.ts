@@ -1,6 +1,5 @@
 import express from 'express'
 import transactions from './routes/transactionRoute'
-import acctransactions from './routes/accuratedRoute'
 
 const app = express();
 
@@ -12,8 +11,6 @@ const data = {
 }
 
 app.use('/transactions', transactions);
-
-app.use('/extra', acctransactions);
 
 app.get('/', (req, res) => {
   res.status(200).send(data);
