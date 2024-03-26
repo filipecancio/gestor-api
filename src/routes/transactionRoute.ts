@@ -16,6 +16,7 @@ router.get('/all/:id', (req, res) => {
 });
 
 router.get('/all/', (req: Request<{}, any, any, TransactionQuery, Record<string, any>> , res) => {
+  console.log(`request: type - ${req.query.type}`)
   res.status(200).send(
     getTransactions(
       req.query.type, 

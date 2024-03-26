@@ -35,7 +35,8 @@ const getTransactions = (
   }
 
   dbFiltered = sortedByDescending(dbFiltered)
-  return groupByDateFormat(dbFiltered)
+  let result = groupByDateFormat(dbFiltered)
+  return result
 }
 
 const getTransaction = (id: number) => {
@@ -51,7 +52,7 @@ const getMonthlyTransactions = () => {
   let result = Object.keys(mapDbFiltered).map(key => {
     const item = mapDbFiltered[key];
     const valueSum = item.reduce((a, b) => a + b.value, 0);
-    const firstTimestamp = new Date(item[0].timestamp).toDateString();
+    const firstTimestamp = item[0].timestamp
 
     let transaction : Transaction = {
       id: 1,
